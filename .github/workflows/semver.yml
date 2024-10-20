@@ -4,6 +4,9 @@ on:
   workflow_dispatch:
 
 jobs:
+  open_api_diff:
+    permissions: write-all
+
   deploy:
     runs-on: ubuntu-latest
 
