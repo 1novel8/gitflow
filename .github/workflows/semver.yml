@@ -33,5 +33,6 @@ jobs:
           draft: false
           makeLatest: true
           name: ${{ steps.semver.outputs.next }}
+          tag: v${{ steps.semver.outputs.next }} # Используем тег
           body: Changelog Contents
           token: ${{ github.token }}
