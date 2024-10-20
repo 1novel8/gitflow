@@ -26,6 +26,15 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Update CHANGELOG
+        id: changelog
+        uses: requarks/changelog-action@v1
+        with:
+          token: ${{ github.token }}
+          fromTag: ${{ github.ref_name }}
+          toTag: ${{ env.previousTag }}
+          writeToFile: false
+
       - name: Create Release
         uses: ncipollo/release-action@v1.12.0
         with:
@@ -34,5 +43,5 @@ jobs:
           makeLatest: true
           name: ${{ steps.semver.outputs.next }}
           tag: ${{ steps.semver.outputs.next }} # Используем тег
-          body: Changelog Contents
+          body: ${{ steps.changelog.outputs.changes }}
           token: ${{ github.token }}
