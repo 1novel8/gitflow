@@ -19,6 +19,25 @@ jobs:
           token: ${{ github.token }}
           branch: main
 
+      - name: Find Existing Tag
+        id: tag_check
+        run: |
+          if git rev-parse "v${{ steps.semver.outputs.next }}" >/dev/null 2>&1; then
+            echo "Tag exists"
+            echo "tag_found=true" >> $GITHUB_ENV
+          else
+            echo "Tag does not exist"
+            echo "tag_found=false" >> $GITHUB_ENV
+        shell: bash
+
+      - name: Create Tag
+        if: env.tag_found == 'false'
+        run: |
+          git tag v${{ steps.semver.outputs.next }}
+          git push origin v${{ steps.semver.outputs.next }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Create Release
         uses: ncipollo/release-action@v1.12.0
         with:
