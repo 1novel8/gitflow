@@ -21,7 +21,7 @@ jobs:
 
       - name: Create Tag
         run: |
-          git tag v${{ steps.semver.outputs.next }}
+          git tag ${{ steps.semver.outputs.next }}
           git push origin v${{ steps.semver.outputs.next }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -33,6 +33,6 @@ jobs:
           draft: false
           makeLatest: true
           name: ${{ steps.semver.outputs.next }}
-          tag: v${{ steps.semver.outputs.next }} # Используем тег
+          tag: ${{ steps.semver.outputs.next }} # Используем тег
           body: Changelog Contents
           token: ${{ github.token }}
