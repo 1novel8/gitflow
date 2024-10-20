@@ -4,10 +4,8 @@ on:
   workflow_dispatch:
 
 jobs:
-  open_api_diff:
-    permissions: write-all
-
   deploy:
+    permissions: write-all
     runs-on: ubuntu-latest
 
     steps:
