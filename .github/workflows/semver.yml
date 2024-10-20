@@ -1,21 +1,29 @@
-name: test
+name: Deploy
+
 on:
-  push:
-    branches:
-      - main
+  workflow_dispatch:
 
 jobs:
-  main:
+  deploy:
     runs-on: ubuntu-latest
-    environment:
-      name: Semver
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          persist-credentials: false
-      - name: Semantic Release
-        uses: cycjimmy/semantic-release-action@v4
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Get Next Version
+        id: semver
+        uses: ietf-tools/semver-action@v1
+        with:
+          token: ${{ github.token }}
+          branch: main
+
+      - name: Create Release
+        uses: ncipollo/release-action@v1.12.0
+        with:
+          allowUpdates: true
+          draft: false
+          makeLatest: true
+          name: ${{ steps.semver.outputs.next }}
+          body: Changelog Contents
+          token: ${{ github.token }}
