@@ -1,3 +1,3 @@
 b = 2
 
-print(b + b + b)
+print(b * 3)
