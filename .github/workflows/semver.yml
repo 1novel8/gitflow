@@ -1,4 +1,4 @@
-name: Deploy
+name: Semantic versioning
 
 on:
   push:
@@ -6,7 +6,7 @@ on:
       - main
 
 jobs:
-  deploy:
+  create-release-tag:
     permissions: write-all
     runs-on: ubuntu-latest
 
